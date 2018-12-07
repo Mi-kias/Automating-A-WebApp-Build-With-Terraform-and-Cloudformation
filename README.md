@@ -6,7 +6,7 @@ Languages: HCL (Hashicorp Configuration Language), PHP, SQL
 
 This project demonstrates the process to build a full AWS WebApp/DB environment following AWS Security Best Practices utilizing Terraform automation (and CloudFormation as alternative). 
 
-Project summary can be found here: 
+Project walkthrough can be found here: http://www.mikiasemanuel.com/automating-a-webapp-build-with-terraform-and-cloudformation/
 
 ## Prerequisites:
 
