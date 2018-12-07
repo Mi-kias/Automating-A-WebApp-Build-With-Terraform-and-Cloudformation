@@ -32,5 +32,5 @@ terraform apply
 ```
 To test internal DNS - log into the web server and run a DNS query for the private subnet:
 ```
-(in progress)
+(in progress - need to configure SSH key_name)
 ```
