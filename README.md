@@ -23,4 +23,13 @@ cd ~
 mkdir test-tf-webapp
 wget -i s3urls.txt
 ```
-
+Stage Terraform before building the infrastructure (type 'yes' when prompted to build):
+```
+terraform init
+terraform validate
+terraform apply
+```
+To test internal DNS - log into the web server and run a DNS query for the private subnet:
+```
+(in progress)
+```
