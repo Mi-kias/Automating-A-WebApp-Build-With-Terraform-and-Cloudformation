@@ -1,5 +1,5 @@
 # Automating-A-WebApp-Build-With-Terraform-and-Cloudformation
-## Cloudformation Portion in Progress!!
+### Cloudformation Portion in Progress!!
 
 Included Technologies: Apache, CloudFormation, MySQL, Terraform, S3
 
