@@ -1,0 +1,158 @@
+#leveraging https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-reference.html
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Deploy a VPC v.1'
+
+Resources:
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: 'true'
+      EnableDnsHostnames: 'true'
+      InstanceTenancy: default
+      Tags:
+      - Key: Name
+        Value: MikiasTestVPC
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+      - Key: Name
+        Value: MikiasTestIG
+
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId:
+        Ref: VPC
+      InternetGatewayId:
+        Ref: InternetGateway
+
+  PublicSubnetA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:
+        Ref: VPC
+      CidrBlock: 10.0.0.0/24
+      AvailabilityZone: !Select #Selects AZ at runtime. Will allow for multi-region deployment.
+        - '0'
+        - !GetAZs ''
+      Tags:
+        - Key: Name
+          Value: PublicSubnetA
+
+  PublicSubnetB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:
+        Ref: VPC
+      CidrBlock: 10.0.2.0/24
+      AvailabilityZone: !Select
+        - '1'
+        - !GetAZs ''
+      Tags:
+        - Key: Name
+          Value: PublicSubnetB
+
+  PrivateSubnetA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:
+        Ref: VPC
+      CidrBlock: 10.0.1.0/24
+      AvailabilityZone: !Select
+        - '0'
+        - !GetAZs ''
+      Tags:
+        - Key: Name
+          Value: PrivateSubnetA
+
+  PrivateSubnetB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:
+        Ref: VPC
+      CidrBlock: 10.0.3.0/24
+      AvailabilityZone: !Select
+        - '1'
+        - !GetAZs ''
+      Tags:
+        - Key: Name
+          Value: PrivateSubnetB
+
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: Public Route Table
+
+  PublicRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: InternetGateway
+
+  PublicSubnetRouteTableAssociationA:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: PublicSubnetA
+      RouteTableId:
+        Ref: PublicRouteTable
+
+  PublicSubnetRouteTableAssociationB:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: PublicSubnetB
+      RouteTableId:
+        Ref: PublicRouteTable
+
+  PrivateRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: VPC
+      Tags:
+      - Key: Name
+        Value: PrivateRouteTable
+
+  PrivateSubnetRouteTableAssociationA:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: PrivateSubnetA
+      RouteTableId:
+        Ref: PrivateRouteTable
+
+  PrivateSubnetRouteTableAssociationB:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: PrivateSubnetB
+      RouteTableId:
+        Ref: PrivateRouteTable
+
+Outputs:
+  VPC:
+    Description: VPC
+    Value:
+      Ref: VPC
+
+  AZ1:
+    Description: Availability Zone 1
+    Value: !GetAtt
+      - PublicSubnetA
+      - AvailabilityZone
+
+  AZ2:
+    Description: Availability Zone 2
+    Value: !GetAtt
+      - PublicSubnetB
+      - AvailabilityZone
