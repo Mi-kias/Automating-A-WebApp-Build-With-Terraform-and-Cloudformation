@@ -21,6 +21,7 @@ Create test directory and import .tf files (I created a bucket in S3 with all .t
 ```
 cd ~
 mkdir test-tf-webapp
+cd test-tf-webapp/
 wget -i s3urls.txt
 ```
 Stage Terraform before building the infrastructure (type 'yes' when prompted to build):
