@@ -11,11 +11,11 @@ variable "LinuxAMI" {
   description = "Using Virginia, Ohio, and Tokyo for this demonstration"
 }
 variable "aws_access_key" {
-  default = "AKIAJYMWOWWR7X2DTYHQ"
+  default = "" #add your own access key.
   description = "AWS_Access_Key"
 }
 variable "aws_secret_key" {
-  default = "DLpS1vt5xKiq8wGDyjYDryr5GiNn7qyyycUI+P/g”
+  default = "" #add your own secret key.
   description = "AWS_Secret_Key"
 }
 variable "VPC_CIDR" {
