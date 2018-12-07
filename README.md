@@ -17,7 +17,7 @@ wget https://releases.hashicorp.com/terraform/0.11.10/terraform_0.11.10_linux_am
 unzip terraform_0.11.10_linux_amd64.zip
 mv terraform /usr/bin/
 ```
-Create test directory and import .tf files (from TF-WebApp-Test folder).
+Create test directory and import .tf files (from [TF_WebApp_Test](https://github.com/MikiasE/Automating-A-WebApp-Build-With-Terraform-and-Cloudformation/tree/master/TF_WebApp_Test).
 
 I created a bucket in S3 with all .tf files, compiled S3 urls into a .txt file (cat s3urls.txt), and used wget to pull the contents:
 ```
